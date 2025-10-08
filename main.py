@@ -38,12 +38,11 @@ if uploaded_file:
         model_outputs = classifier(text[0]['translation_text'])
         data.append(model_outputs[0][0])
 
-    df = pd.DataFrame(data)
-    st.dataframe(df)
     # Подсчет частоты меток
     labels = [item['label'] for item in data]
     label_counts = Counter(labels)
+    label_counts
     bar_colors = [colors.get(category, '#888888') for category in label_counts.keys()]
-    st.bar_chart(data, x="Эмоции", y= "Количество", color=bar_colors, horizontal=False)    
+    st.bar_chart(label_counts, x="Эмоции", y= "Количество", color=bar_colors, horizontal=False)    
     
 
