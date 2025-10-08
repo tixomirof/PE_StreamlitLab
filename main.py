@@ -29,7 +29,7 @@ classifier, translator = load_models()
 uploaded_file = st.file_uploader("Загрузите файл для перевода с разделителями \\n", ".txt")
 
 if uploaded_file:
-    with open('путь/к/файлу.txt', 'r', encoding='utf-8') as f:
+    with open(uploaded_file, 'rb', encoding='utf-8') as f:
         text = uploaded_file.read()
         sentences = text.split("\n")
     data = []
