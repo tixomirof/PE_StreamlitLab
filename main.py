@@ -1,30 +1,41 @@
 import streamlit as st
 import pandas as pd
+from transformers import pipeline
+from collections import Counter
 
 st.title("Программная инженерия: лабораторная работа №3")
-st.header("Вариант-11 (Тихомиров Алексей)")
+st.header("Выполнили Алексей Тихомиров и Рудин Валентин")
+st.subheader("Приложение позволяет определить эмоциональную окраску отзывов о фильме")
 
-st.write("Исходная таблица данных:")
-df = pd.read_csv("https://huggingface.co/datasets/ankislyakov/titanic/resolve/main/titanic_train.csv")
-st.dataframe(df)
+colors = {
+        'love': '#FF6B6B',
+        'admiration': '#FFA500',
+        'approval': '#32CD32',
+        'neutral': '#87CEEB',
+        'disappointment': '#6A5ACD',
+        'disapproval': '#9370DB',
+        'anger': '#DC143C',
+        'disgust': '#8B4513'
+    }
 
-age_category = st.selectbox(
-    "Выберите возрастную категорию:",
-    ('Молодой', 'Среднего возраста', 'Старый')
-)
+classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
+translator = pipeline("translation_ru_to_en", "Helsinki-NLP/opus-mt-ru-en")
 
-if age_category == 'Молодой':
-    filtered_df = df[df['Age'] < 30]
-elif age_category == 'Среднего возраста':
-    filtered_df = df[(df['Age'] >= 30) & (df['Age'] < 60)]
-else:
-    filtered_df = df[df['Age'] >= 60]
+uploaded_file = st.file_uploader("Загрузите файл для перевода с разделителями \\n", ".txt")
 
-if not filtered_df.empty:
-    survival_rate = filtered_df['Survived'].mean()
-    st.write(f"Доля спасенных: {survival_rate:.2%}")
-    st.write(f"Доля погибших: {1 - survival_rate:.2%}")
-else:
-    st.write("Нет данных для выбранной категории")
+if uploaded_file:
+    text = uploaded_file.read()
+    sentences = text.split("\n")
+    data = []
+    for sentence in sentences:
+        text = translator(sentence)
+        model_outputs = classifier(text[0]['translation_text'])
+        data.append(model_outputs[0][0])
 
-st.dataframe(filtered_df)
+    # Подсчет частоты меток
+    labels = [item['label'] for item in data]
+    label_counts = Counter(labels)
+    bar_colors = [colors.get(category, '#888888') for category in label_counts.keys()]
+    st.bar_chart(data, x="Эмоции", y= "Количество", color=bar_colors, horizontal=False)    
+    
+
