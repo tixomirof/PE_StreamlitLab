@@ -51,21 +51,8 @@ if uploaded_file:
         result["Количество"].append(label_counts[key])
 
     bar_colors = [colors.get(category, '#888888') for category in label_counts.keys()]
-    plt.figure(figsize=(12, 6))
-    bars = plt.bar(label_counts.keys(), label_counts.values(), color=bar_colors, edgecolor='black', linewidth=0.5)
-
-    # Настройка подписей на оси X
-    plt.xticks(rotation=45, ha='right')
-
-    # Добавляем отступы для лучшего отображения
-    plt.subplots_adjust(bottom=0.2)
-
-    plt.title('Частота эмоциональных меток', pad=20)
-    plt.xlabel('Эмоции')
-    plt.ylabel('Количество')
-    plt.tight_layout()
-    st.pyplot(bars)
-    #st.bar_chart(result, x="Эмоции", y= "Количество", color=bar_colors, horizontal=False)
-    #st.bar_chart(result, horizontal=True)     
+    bar_colors
+    st.altair_chart(result, x="Эмоции", y= "Количество", color=bar_colors, horizontal=False)
+    st.bar_chart(result, horizontal=True)     
     
 
