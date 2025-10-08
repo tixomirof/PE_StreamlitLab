@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import altair as alt
 
 st.title("Программная инженерия: лабораторная работа №3")
-st.header("Выполнили Алексей Тихомиров и Рудин Валентин")
+st.header("Выполнили Тихомиров Алексей и Рудин Валентин")
 st.subheader("Приложение позволяет определить эмоциональную окраску отзывов о фильме")
 
 colors = {
@@ -28,7 +28,7 @@ def load_models():
 
 classifier, translator = load_models()
 
-uploaded_file = st.file_uploader("Загрузите файл для перевода с разделителями \\n", ".txt")
+uploaded_file = st.file_uploader("Загрузите файл с разделителями \\n", ".txt")
 
 if uploaded_file:
     
