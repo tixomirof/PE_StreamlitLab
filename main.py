@@ -51,6 +51,6 @@ if uploaded_file:
     result
     bar_colors = [colors.get(category, '#888888') for category in label_counts.keys()]
     #st.bar_chart(result, x="Эмоции", y= "Количество", color=bar_colors, horizontal=False)
-    st.bar_chart(result, color=bar_colors, horizontal=False)     
+    st.bar_chart(result, horizontal=True)     
     
 
