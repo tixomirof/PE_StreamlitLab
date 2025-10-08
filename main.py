@@ -55,7 +55,7 @@ if uploaded_file:
     result["Цвет"] = bar_colors
     df = pd.DataFrame(result)
     bars = (
-        alt.Chart()
+        alt.Chart(df)
         .mark_bar()
         .encode(
             x="Эмоции",
