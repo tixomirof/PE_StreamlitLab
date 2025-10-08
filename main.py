@@ -47,7 +47,7 @@ if uploaded_file:
     }
     for key in label_counts.keys():
         result["Эмоции"].append(key)
-        result["Эмоции"].append(label_counts[key])
+        result["Количество"].append(label_counts[key])
     result
     bar_colors = [colors.get(category, '#888888') for category in label_counts.keys()]
     st.bar_chart(result, x="Эмоции", y= "Количество", color=bar_colors, horizontal=False)    
