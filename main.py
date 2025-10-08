@@ -3,6 +3,7 @@ import pandas as pd
 from transformers import pipeline
 from collections import Counter
 import matplotlib.pyplot as plt
+import altair as alt
 
 st.title("Программная инженерия: лабораторная работа №3")
 st.header("Выполнили Алексей Тихомиров и Рудин Валентин")
@@ -51,8 +52,18 @@ if uploaded_file:
         result["Количество"].append(label_counts[key])
 
     bar_colors = [colors.get(category, '#888888') for category in label_counts.keys()]
-    bar_colors
-    st.altair_chart(result, x="Эмоции", y= "Количество", color=bar_colors, horizontal=False)
-    st.bar_chart(result, horizontal=True)     
+    result["Цвет"] = bar_colors
+    df = pd.DataFrame(result)
+    bars = (
+        alt.Chart()
+        .mark_bar()
+        .encode(
+            x="Эмоции",
+            y="Количество",
+            color="Цвет"
+        )
+    )
+    st.altair_chart(bars, theme=None, use_container_width=True)
+    #st.bar_chart(result, horizontal=True)     
     
 

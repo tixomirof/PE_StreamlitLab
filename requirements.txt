@@ -5,3 +5,4 @@ tokenizers
 sentencepiece
 matplotlib
 streamlit[charts]
+altair
