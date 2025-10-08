@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from transformers import pipeline
 from collections import Counter
+import matplotlib.pyplot as plt
 
 st.title("Программная инженерия: лабораторная работа №3")
 st.header("Выполнили Алексей Тихомиров и Рудин Валентин")
@@ -48,9 +49,23 @@ if uploaded_file:
     for key in label_counts.keys():
         result["Эмоции"].append(key)
         result["Количество"].append(label_counts[key])
-    result
+
     bar_colors = [colors.get(category, '#888888') for category in label_counts.keys()]
+    plt.figure(figsize=(12, 6))
+    bars = plt.bar(label_counts.keys(), label_counts.values(), color=bar_colors, edgecolor='black', linewidth=0.5)
+
+    # Настройка подписей на оси X
+    plt.xticks(rotation=45, ha='right')
+
+    # Добавляем отступы для лучшего отображения
+    plt.subplots_adjust(bottom=0.2)
+
+    plt.title('Частота эмоциональных меток', pad=20)
+    plt.xlabel('Эмоции')
+    plt.ylabel('Количество')
+    plt.tight_layout()
+    st.pyplot(bars)
     #st.bar_chart(result, x="Эмоции", y= "Количество", color=bar_colors, horizontal=False)
-    st.bar_chart(result, horizontal=True)     
+    #st.bar_chart(result, horizontal=True)     
     
 
