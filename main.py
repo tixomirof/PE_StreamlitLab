@@ -34,6 +34,7 @@ if uploaded_file:
     sentences = text.split("\n")
     data = []
     for sentence in sentences:
+        st.title(sentence)
         text = translator(sentence)
         model_outputs = classifier(text[0]['translation_text'])
         data.append(model_outputs[0][0])
