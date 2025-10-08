@@ -36,7 +36,6 @@ if uploaded_file:
     for i, sentence in enumerate(sentences):
         text = translator(sentence)
         model_outputs = classifier(text[0]['translation_text'])
-        model_outputs
         data.append(model_outputs[0][0])
 
     df = pd.DataFrame(data)
