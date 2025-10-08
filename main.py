@@ -32,19 +32,22 @@ if uploaded_file:
     
     text = uploaded_file.getvalue().decode("utf-8")
     sentences = text.split("\n")
-    data = []
+    data = {
+        "Эмоции": [],
+        "Количество": []
+    }
     for i, sentence in enumerate(sentences):
-        st.title(str(sentence) + " " + str(i))
         text = translator(sentence)
         model_outputs = classifier(text[0]['translation_text'])
-        data.append(model_outputs[0][0])
+        model_outputs
+        data["Эмоции"].append(model_outputs[0])
+        data["Количество"].append(model_outputs[1])
 
-    st.title(data)
     st.dataframe(data)
     # Подсчет частоты меток
     labels = [item['label'] for item in data]
     label_counts = Counter(labels)
     bar_colors = [colors.get(category, '#888888') for category in label_counts.keys()]
-    st.bar_chart(data, x="Э", y= "Количество", color=bar_colors, horizontal=False)    
+    st.bar_chart(data, x="Эмоции", y= "Количество", color=bar_colors, horizontal=False)    
     
 
