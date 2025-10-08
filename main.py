@@ -41,6 +41,7 @@ if uploaded_file:
     # Подсчет частоты меток
     labels = [item['label'] for item in data]
     label_counts = Counter(labels)
+    label_counts = pd.DataFrame(label_counts)
     label_counts
     bar_colors = [colors.get(category, '#888888') for category in label_counts.keys()]
     st.bar_chart(label_counts, x="Эмоции", y= "Количество", color=bar_colors, horizontal=False)    
