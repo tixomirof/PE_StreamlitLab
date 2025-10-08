@@ -28,7 +28,7 @@ def load_models():
 
 classifier, translator = load_models()
 
-uploaded_file = st.file_uploader("Загрузите файл с разделителями \\n", ".txt")
+uploaded_file = st.file_uploader("Загрузите файл с разделителями", ".txt")
 
 if uploaded_file:
     
