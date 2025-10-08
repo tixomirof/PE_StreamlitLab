@@ -38,6 +38,7 @@ if uploaded_file:
         model_outputs = classifier(text[0]['translation_text'])
         data.append(model_outputs[0][0])
 
+    st.dataframe(data)
     # Подсчет частоты меток
     labels = [item['label'] for item in data]
     label_counts = Counter(labels)
