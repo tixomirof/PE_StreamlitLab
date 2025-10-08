@@ -45,9 +45,8 @@ if uploaded_file:
         "Эмоции": [],
         "Количество": []
     }
-    kyes = label_counts.keys()
-    kyes
     for key in label_counts.keys():
+        key
         result["Эмоции"].append(key)
         result["Количество"].append(label_counts[key])
     result
