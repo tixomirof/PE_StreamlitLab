@@ -32,18 +32,15 @@ if uploaded_file:
     
     text = uploaded_file.getvalue().decode("utf-8")
     sentences = text.split("\n")
-    data = {
-        "Эмоции": [],
-        "Количество": []
-    }
+    data = []
     for i, sentence in enumerate(sentences):
         text = translator(sentence)
         model_outputs = classifier(text[0]['translation_text'])
         model_outputs
-        data["Эмоции"].append(model_outputs[0])
-        data["Количество"].append(model_outputs[1])
+        data.append(model_outputs[0][0])
 
-    st.dataframe(data)
+    df = pd.DataFrame(data)
+    st.dataframe(df)
     # Подсчет частоты меток
     labels = [item['label'] for item in data]
     label_counts = Counter(labels)
