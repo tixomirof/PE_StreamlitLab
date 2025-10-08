@@ -18,8 +18,13 @@ colors = {
         'disgust': '#8B4513'
     }
 
-classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
-translator = pipeline("translation_ru_to_en", "Helsinki-NLP/opus-mt-ru-en")
+@st.cache_resource
+def load_models():
+    classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
+    translator = pipeline("translation_ru_to_en", "Helsinki-NLP/opus-mt-ru-en")
+    return (classifier, translator)
+
+classifier, translator = load_models()
 
 uploaded_file = st.file_uploader("Загрузите файл для перевода с разделителями \\n", ".txt")
 
