@@ -4,6 +4,7 @@ from transformers import pipeline
 from collections import Counter
 import matplotlib.pyplot as plt
 import altair as alt
+from brains import TranslateAndEmotion as TaEModel
 
 st.title("Программная инженерия: лабораторная работа №3")
 st.header("Выполнили Тихомиров Алексей и Рудин Валентин")
@@ -21,35 +22,22 @@ colors = {
     }
 
 @st.cache_resource
-def load_models():
-    classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
-    translator = pipeline("translation_ru_to_en", "Helsinki-NLP/opus-mt-ru-en")
-    return (classifier, translator)
+def load_model():
+    model = TaEModel()
+    return model
 
-classifier, translator = load_models()
+model = load_model()
 
 uploaded_file = st.file_uploader("Загрузите файл с разделителями", ".txt")
 
 if uploaded_file:
     
     text = uploaded_file.getvalue().decode("utf-8")
-    sentences = text.split("\n")
-    data = []
-    for i, sentence in enumerate(sentences):
-        text = translator(sentence)
-        model_outputs = classifier(text[0]['translation_text'])
-        data.append(model_outputs[0][0])
-
-    # Подсчет частоты меток
-    labels = [item['label'] for item in data]
-    label_counts = Counter(labels)
-    result = {
-        "Эмоции": [],
-        "Количество": []
-    }
-    for key in label_counts.keys():
-        result["Эмоции"].append(key)
-        result["Количество"].append(label_counts[key])
+    comments = model.get_sentences_from_text(text)
+    translated_commets = model.translate_all_sentences(comments)
+    model_outputs = model.classified_emotions_from_data(translated_commets)
+        
+    result, label_counts = model.count_emotions(model_outputs)
 
     bar_colors = [colors.get(category, '#888888') for category in label_counts.keys()]
     result["Цвет"] = bar_colors
@@ -63,7 +51,6 @@ if uploaded_file:
             color="Цвет"
         )
     )
-    st.altair_chart(bars, theme=None, use_container_width=True)
-    #st.bar_chart(result, horizontal=True)     
+    st.altair_chart(bars, theme=None, use_container_width=True) 
     
 
