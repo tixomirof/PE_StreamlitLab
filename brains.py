@@ -34,7 +34,7 @@ class TranslateAndEmotion:
 
     def get_comments_data(self):
         comments_data = []
-        with open("data.txt", "r", encoding="utf-8") as f:
+        with open(self.data_comments_file_path, "r", encoding="utf-8") as f:
             for line in f:
                 comments_data.append(line)
         return comments_data

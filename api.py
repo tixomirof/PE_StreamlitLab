@@ -65,6 +65,23 @@ async def classify_file(file: UploadFile = File(...)):
 	}
 
 
+@app.get("/classify-comments")
+async def classify_comments():
+    if model is None:
+        raise HTTPException(status_code=503, detail="Model not loaded")
+    comments = model.get_comments_data()
+    sentences = [comment.strip() for comment in comments if comment.strip()]
+    translations = model.translate_all_sentences(sentences)
+    emotions = model.classified_emotions_from_data(translations)
+    counts, _ = model.count_emotions(emotions)
+    return {
+        "sentences": sentences,
+        "translations": translations,
+        "emotions": emotions,
+        "counts": counts,
+    }
+
+
 @app.post("/add-comment")
 async def add_comment(req: TextRequest):
 	if model is None:
