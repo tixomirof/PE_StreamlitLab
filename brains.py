@@ -51,7 +51,8 @@ class TranslateAndEmotion:
         result = []
         for comment in data:
             model_outputs = self.classifier(comment)
-            result.append[model_outputs[0][0]]
+            result.append(model_outputs[0][0])
+        return result
 
     def classified_emotions_from_file(self):
         translated = self.get_translated_comments_data()
@@ -69,4 +70,4 @@ class TranslateAndEmotion:
             result["Эмоции"].append(key)
             result["Количество"].append(label_counts[key])
         return (result, label_counts)
-        
+
