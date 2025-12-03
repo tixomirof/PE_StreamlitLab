@@ -6,3 +6,6 @@ sentencepiece
 matplotlib
 streamlit[charts]
 altair
+fastapi
+uvicorn
+python-multipart
